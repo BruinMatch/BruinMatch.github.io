@@ -171,24 +171,12 @@ router.post(
 app.use("/add-post", router);
 
 // Production part
-// mongoose
-//   .connect(
-//     `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.wi7zg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
-//   )
-//   .then(() => {
-//     app.listen(process.env.PORT || 5000);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
-
 mongoose
   .connect(
-    `mongodb+srv://BruinMatch:BruinMatch25!@cluster0.wi7zg.mongodb.net/inputs?retryWrites=true&w=majority&appName=Cluster0`
+    `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.wi7zg.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(() => {
     app.listen(process.env.PORT || 5000);
-    console.log("App listening on port 5000");
   })
   .catch((err) => {
     console.log(err);
