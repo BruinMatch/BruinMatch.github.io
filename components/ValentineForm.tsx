@@ -16,6 +16,7 @@ export default function ValentineForm() {
     qualities: "",
     dealbreaker: "",
     trust: "",
+    bplate: "",
     dreams: "",
     fear: "",
     friendship: "",
@@ -27,7 +28,6 @@ export default function ValentineForm() {
     evaluate: "",
     quiz: "",
     secret: "",
-    bplate: "", // ADDED bplate to formData to match the pages array
   });
 
   const router = useRouter();
