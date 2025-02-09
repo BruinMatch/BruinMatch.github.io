@@ -40,7 +40,7 @@ export default function ValentineForm() {
 
     const handleRequest = async () => {
       try {
-        const response = await fetch("http://54.221.250.119:5000/add-post", {
+        const response = await fetch("http://54.221.250.119/add-post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -49,6 +49,7 @@ export default function ValentineForm() {
         });
 
         if (!response.ok) {
+          console.log("response failed");
           throw new Error("Failed to submit form. Please try again later.");
         }
 
