@@ -142,7 +142,7 @@ export default function ValentineForm() {
         'type' in q && q.type === 'text' ? (
           <div key="welcome-text" className="mb-4 text-lg">{q.content}</div>
         ) : (
-          //  👇 Add checks for 'label' and 'name' existence too!
+          //  dd checks for 'label' and 'name' existence too
           'label' in q && 'name' in q ? (
             <InputField
               key={q.name}
@@ -151,7 +151,7 @@ export default function ValentineForm() {
               value={formData[q.name as keyof typeof formData]}
               onChange={handleChange}
             />
-          ) : null //  👈  Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
+          ) : null // Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
         )
       ))}
 
