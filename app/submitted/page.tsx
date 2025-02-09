@@ -1,7 +1,6 @@
+"use client";
 import Link from "next/link";
 import HeartBackground from "../../components/HeartBackground";
-
-export const dynamic = "force-dynamic";
 
 export default function SubmittedPage({ searchParams }: { searchParams: { name: string } }) {
   return (
