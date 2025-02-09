@@ -40,16 +40,13 @@ export default function ValentineForm() {
 
     const handleRequest = async () => {
       try {
-        const response = await fetch(
-          "https://bruinmatch-backend.onrender.com/add-post",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(formData),
-          }
-        );
+        const response = await fetch("http://54.221.250.119:5000/add-post", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
         if (!response.ok) {
           throw new Error("Failed to submit form. Please try again later.");
@@ -102,7 +99,10 @@ export default function ValentineForm() {
   );
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className='space-y-4'
+    >
       {pages[page].map((q) => (
         <InputField
           key={q.name}
@@ -113,21 +113,21 @@ export default function ValentineForm() {
         />
       ))}
 
-      <div className="flex justify-between">
+      <div className='flex justify-between'>
         {page > 0 && (
           <button
-            type="button"
+            type='button'
             onClick={() => setPage(page - 1)}
-            className="bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300"
+            className='bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300'
           >
             Back
           </button>
         )}
 
         {page < pages.length - 1 ? (
-          <div className="relative group">
+          <div className='relative group'>
             <button
-              type="button"
+              type='button'
               onClick={() => isPageComplete && setPage(page + 1)}
               disabled={!isPageComplete}
               className={`py-2 px-4 rounded font-bold transition duration-300 ${
@@ -141,15 +141,15 @@ export default function ValentineForm() {
 
             {/* Tooltip appears only if the button is disabled */}
             {!isPageComplete && (
-              <div className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Complete all questions to continue
               </div>
             )}
           </div>
         ) : (
-          <div className="relative group">
+          <div className='relative group'>
             <button
-              type="submit"
+              type='submit'
               disabled={!isPageComplete}
               className={`py-2 px-4 rounded font-bold transition duration-300 ${
                 isPageComplete
@@ -162,7 +162,7 @@ export default function ValentineForm() {
 
             {/* Tooltip appears only if the button is disabled */}
             {!isPageComplete && (
-              <div className="absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+              <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
                 Complete all questions to submit
               </div>
             )}
