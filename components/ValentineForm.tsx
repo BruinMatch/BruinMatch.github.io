@@ -7,26 +7,27 @@ import InputField from "./InputField";
 export default function ValentineForm() {
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
-    name: "",
-    favoriteColor: "",
-    idealDate: "",
-    crushName: "",
-    input5: "",
-    input6: "",
-    input7: "",
-    input8: "",
-    input9: "",
-    input10: "",
-    input11: "",
-    input12: "",
-    input13: "",
-    input14: "",
-    input15: "",
-    input16: "",
-    input17: "",
-    input18: "",
-    input19: "",
-    input20: "",
+    firstName: "",
+    lastName: "",
+    uclaemail: "",
+    academicyear: "",
+    gender: "",
+    sexuality: "",
+    qualities: "",
+    dealbreaker: "",
+    trust: "",
+    dreams: "",
+    fear: "",
+    friendship: "",
+    andre: "",
+    lovelanguage: "",
+    humor: "",
+    perfectday: "",
+    hours: "",
+    evaluate: "",
+    quiz: "",
+    secret: "",
+    bplate: "", // ADDED bplate to formData to match the pages array
   });
 
   const router = useRouter();
@@ -52,7 +53,7 @@ export default function ValentineForm() {
           throw new Error("Failed to submit form. Please try again later.");
         }
 
-        router.push("/submitted?name=" + encodeURIComponent(formData.name));
+        router.push("/submitted?name=" + encodeURIComponent(formData.firstName)); // Changed formData.name to formData.firstName
       } catch (error) {
         console.error("Error submitting form:", error);
       }
@@ -62,40 +63,73 @@ export default function ValentineForm() {
   };
 
   // Grouping questions into pages (4 pages with 5 questions each)
+
   const pages = [
     [
-      { label: "Your Name", name: "name" },
-      { label: "Favorite Color", name: "favoriteColor" },
-      { label: "Ideal Valentine's Date", name: "idealDate" },
-      { label: "Secret Crush (we won't tell!)", name: "crushName" },
-      { label: "Question 5", name: "input5" },
+      { type: "text",
+        content: (
+          <>
+            Welcome to BruinMatch! We took inspiration from Harvard's DataMatch, and
+            noticed that UCLA doesn't have any sort of equivalent.
+            <br />
+            <br />
+            This quiz is 20 questions, and at 12:00am on February 14th you will
+            receive an email with your partner with highest compatibility score!
+            This score is calculated using AI based on your answers. All questions are free response to give you freedom to express yourself however you wish. I swear it's not because of bad design and tight deadlines :)
+            <br />
+            <br />
+            Our AI is programmed to analyze not only your answers but your tone and text patterns in order to do its best to match you with someone who fits your vibe!
+            <br />
+            <br />
+            Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your response. We will also be using AI to filter out duplicate/invalid responses.
+          </>
+        ),
+       },
     ],
     [
-      { label: "Question 6", name: "input6" },
-      { label: "Question 7", name: "input7" },
-      { label: "Question 8", name: "input8" },
-      { label: "Question 9", name: "input9" },
-      { label: "Question 10", name: "input10" },
+      { label: "First Name", name: "firstName" },
+      { label: "Last Name", name: "lastName" },
+      { label: "UCLA Email", name: "uclaemail" },
+    ],
+    // name, favoriteColor, idealDate, crushName, input5
+    [
+      { label: "Academic Year", name: "academicyear" },
+      { label: "Gender", name: "gender" },
+      { label: "What's your sexuality?'", name: "sexuality" }
     ],
     [
-      { label: "Question 11", name: "input11" },
-      { label: "Question 12", name: "input12" },
-      { label: "Question 13", name: "input13" },
-      { label: "Question 14", name: "input14" },
-      { label: "Question 15", name: "input15" },
+      { label: "What is most important to you in a romantic partner?", name: "qualities" },
+      { label: "What's a dealbreaker?", name: "dealbreaker" },
+      { label: "What's the smallest thing someone could do that would make you instantly trust them?", name: "trust"},
+      { label: "Should BPlate exist?", name: "bplate"}
     ],
     [
-      { label: "Question 16", name: "input16" },
-      { label: "Question 17", name: "input17" },
-      { label: "Question 18", name: "input18" },
-      { label: "Question 19", name: "input19" },
-      { label: "Question 20", name: "input20" },
+      { label: "Whats your dream career?", name: "dreams" },
+      { label: "What's your biggest fear?", name: "fear" },
+      { label: "What do you value most in friendship?", name: "friendship" },
+      { label: "Thoughts on Andre who solicits money in front of Ackerman?", name: "andre" },
+    ],
+    [
+      { label: "Which of the five love languages (Words of Affirmation, Quality Time, Physical Touch, Acts of Service, Receiving Gifts) do you identify with most strongly, and why?", name: "lovelanguage" },
+      { label: "Where do you draw the line on humor?", name: "humor" },
+      { label: "What constitutes a perfect day for you?", name: "perfectday" },
+      { label: "What could you talk about for hours and hours?", name: "hours"},
+    ],
+    [
+      { label: "Evaluate yourself as a person.", name: "evaluate" },
+      { label: "What question should have been on this quiz but wasn't", name: "quiz" },
+      { label: "Do you have a UCLA crush? We won't tell :) we'll do our best to match you!", name: "secret" },
     ],
   ];
 
   // Check if all fields on the current page are filled
   const isPageComplete = pages[page].every(
-    (q) => formData[q.name as keyof typeof formData].trim() !== ""
+    (q) => {
+      if ('name' in q) { //  👈  Only check if 'q' has a 'name' property (it's an input field)
+        return formData[q.name as keyof typeof formData]?.trim() !== ""; // Added optional chaining to prevent error
+      }
+      return true; //  👈 If it doesn't have a 'name' (like welcome text), consider it "complete"
+    }
   );
 
   return (
@@ -104,13 +138,20 @@ export default function ValentineForm() {
       className='space-y-4'
     >
       {pages[page].map((q) => (
-        <InputField
-          key={q.name}
-          label={q.label}
-          name={q.name}
-          value={formData[q.name as keyof typeof formData]}
-          onChange={handleChange}
-        />
+        'type' in q && q.type === 'text' ? (
+          <div key="welcome-text" className="mb-4 text-lg">{q.content}</div>
+        ) : (
+          //  👇 Add checks for 'label' and 'name' existence too!
+          'label' in q && 'name' in q ? (
+            <InputField
+              key={q.name}
+              label={q.label}
+              name={q.name}
+              value={formData[q.name as keyof typeof formData]}
+              onChange={handleChange}
+            />
+          ) : null //  👈  Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
+        )
       ))}
 
       <div className='flex justify-between'>
