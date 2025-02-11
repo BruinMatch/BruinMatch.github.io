@@ -40,12 +40,9 @@ export default function ValentineForm() {
     e.preventDefault();
 
     const handleRequest = async () => {
+      console.log(JSON.stringify(formData));
       try {
-<<<<<<< HEAD
-        const response = await fetch("http://54.221.250.119/add-post", {
-=======
         const response = await fetch("https://bruinmatch.com/add-post", {
->>>>>>> 3649461a7d6e440a4775825e7b839fd77b1844f8
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -71,25 +68,29 @@ export default function ValentineForm() {
 
   const pages = [
     [
-      { type: "text",
+      {
+        type: "text",
         content: (
           <>
-            Welcome to BruinMatch! We took inspiration from Harvard's DataMatch, and
-            noticed that UCLA doesn't have any sort of equivalent.
+            Welcome to BruinMatch! We took inspiration from Harvard's DataMatch, and noticed that
+            UCLA doesn't have any sort of equivalent.
             <br />
             <br />
-            This quiz is 20 questions, and at 12:00am on February 14th you will
-            receive an email with your partner with highest compatibility score!
-            This score is calculated using AI based on your answers. All questions are free response to give you freedom to express yourself however you wish. I swear it's not because of bad design and tight deadlines :)
+            This quiz is 20 questions, and at 12:00am on February 14th you will receive an email
+            with your partner with highest compatibility score! This score is calculated using AI
+            based on your answers. All questions are free response to give you freedom to express
+            yourself however you wish. I swear it's not because of bad design and tight deadlines :)
             <br />
             <br />
-            Our AI is programmed to analyze not only your answers but your tone and text patterns in order to do its best to match you with someone who fits your vibe!
+            Our AI is programmed to analyze not only your answers but your tone and text patterns in
+            order to do its best to match you with someone who fits your vibe!
             <br />
             <br />
-            Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your response. We will also be using AI to filter out duplicate/invalid responses.
+            Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your
+            response. We will also be using AI to filter out duplicate/invalid responses.
           </>
         ),
-       },
+      },
     ],
     [
       { label: "First Name", name: "firstName" },
@@ -100,13 +101,17 @@ export default function ValentineForm() {
     [
       { label: "Academic Year", name: "academicyear" },
       { label: "Gender", name: "gender" },
-      { label: "What's your sexuality?'", name: "sexuality" }
+      { label: "What's your sexuality?'", name: "sexuality" },
     ],
     [
       { label: "What is most important to you in a romantic partner?", name: "qualities" },
       { label: "What's a dealbreaker?", name: "dealbreaker" },
-      { label: "What's the smallest thing someone could do that would make you instantly trust them?", name: "trust"},
-      { label: "Should BPlate exist?", name: "bplate"}
+      {
+        label:
+          "What's the smallest thing someone could do that would make you instantly trust them?",
+        name: "trust",
+      },
+      { label: "Should BPlate exist?", name: "bplate" },
     ],
     [
       { label: "Whats your dream career?", name: "dreams" },
@@ -115,39 +120,50 @@ export default function ValentineForm() {
       { label: "Thoughts on Andre who solicits money in front of Ackerman?", name: "andre" },
     ],
     [
-      { label: "Which of the five love languages (Words of Affirmation, Quality Time, Physical Touch, Acts of Service, Receiving Gifts) do you identify with most strongly, and why?", name: "lovelanguage" },
+      {
+        label:
+          "Which of the five love languages (Words of Affirmation, Quality Time, Physical Touch, Acts of Service, Receiving Gifts) do you identify with most strongly, and why?",
+        name: "lovelanguage",
+      },
       { label: "Where do you draw the line on humor?", name: "humor" },
       { label: "What constitutes a perfect day for you?", name: "perfectday" },
-      { label: "What could you talk about for hours and hours?", name: "hours"},
+      { label: "What could you talk about for hours and hours?", name: "hours" },
     ],
     [
       { label: "Evaluate yourself as a person.", name: "evaluate" },
       { label: "What question should have been on this quiz but wasn't", name: "quiz" },
-      { label: "Do you have a UCLA crush? We won't tell :) we'll do our best to match you!", name: "secret" },
+      {
+        label: "Do you have a UCLA crush? We won't tell :) we'll do our best to match you!",
+        name: "secret",
+      },
     ],
   ];
 
   // Check if all fields on the current page are filled
-  const isPageComplete = pages[page].every(
-    (q) => {
-      if ('name' in q) { //  👈  Only check if 'q' has a 'name' property (it's an input field)
-        return formData[q.name as keyof typeof formData]?.trim() !== ""; // Added optional chaining to prevent error
-      }
-      return true; //  👈 If it doesn't have a 'name' (like welcome text), consider it "complete"
+  const isPageComplete = pages[page].every((q) => {
+    if ("name" in q) {
+      //  👈  Only check if 'q' has a 'name' property (it's an input field)
+      return formData[q.name as keyof typeof formData]?.trim() !== ""; // Added optional chaining to prevent error
     }
-  );
+    return true; //  👈 If it doesn't have a 'name' (like welcome text), consider it "complete"
+  });
 
   return (
     <form
       onSubmit={handleSubmit}
       className='space-y-4'
     >
-      {pages[page].map((q) => (
-        'type' in q && q.type === 'text' ? (
-          <div key="welcome-text" className="mb-4 text-lg">{q.content}</div>
-        ) : (
-          //  dd checks for 'label' and 'name' existence too
-          'label' in q && 'name' in q ? (
+      {pages[page].map(
+        (q) =>
+          "type" in q && q.type === "text" ? (
+            <div
+              key='welcome-text'
+              className='mb-4 text-lg'
+            >
+              {q.content}
+            </div>
+          ) : //  dd checks for 'label' and 'name' existence too
+          "label" in q && "name" in q ? (
             <InputField
               key={q.name}
               label={q.label}
@@ -156,8 +172,7 @@ export default function ValentineForm() {
               onChange={handleChange}
             />
           ) : null // Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
-        )
-      ))}
+      )}
 
       <div className='flex justify-between'>
         {page > 0 && (

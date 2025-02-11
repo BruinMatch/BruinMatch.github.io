@@ -15,29 +15,28 @@ app.use(bodyParser.json());
 
 // Mongoose Schema
 const inputSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  favoriteColor: { type: String, required: true },
-  idealDate: { type: String, required: true },
-  crushName: { type: String, required: true },
-  input5: { type: String, required: true },
-  input6: { type: String, required: true },
-  input7: { type: String, required: true },
-  input8: { type: String, required: true },
-  input9: { type: String, required: true },
-  input10: { type: String, required: true },
-  input11: { type: String, required: true },
-  input12: { type: String, required: true },
-  input13: { type: String, required: true },
-  input14: { type: String, required: true },
-  input15: { type: String, required: true },
-  input15: { type: String, required: true },
-  input16: { type: String, required: true },
-  input17: { type: String, required: true },
-  input18: { type: String, required: true },
-  input19: { type: String, required: true },
-  input20: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  uclaemail: { type: String, required: true },
+  academicyear: { type: String, required: true },
+  gender: { type: String, required: true },
+  sexuality: { type: String, required: true },
+  qualities: { type: String, required: true },
+  dealbreaker: { type: String, required: true },
+  trust: { type: String, required: true },
+  bplate: { type: String, required: true },
+  dreams: { type: String, required: true },
+  fear: { type: String, required: true },
+  friendship: { type: String, required: true },
+  andre: { type: String, required: true },
+  lovelanguage: { type: String, required: true },
+  humor: { type: String, required: true },
+  perfectday: { type: String, required: true },
+  hours: { type: String, required: true },
+  evaluate: { type: String, required: true },
+  quiz: { type: String, required: true },
+  secret: { type: String, required: true },
 });
-
 // Mongoose model
 const Input = mongoose.model("Input", inputSchema);
 
@@ -106,69 +105,47 @@ const createInput = async (req, res) => {
 router.post(
   "/",
   [
-    check("firstName")
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Name must be between 1 and 100 characters"),
-    check("lastName")
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Favorite color must be between 1 and 100 characters"),
-    check("uclaemail")
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Ideal date must be between 1 and 100 characters"),
-    check("academicyear")
-      .isLength({ min: 1, max: 50 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("gender")
-      .isLength({ min: 1, max: 50 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("sexuality")
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("qualities")
-      .isLength({ min: 1, max: 500 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("dealbreaker")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("trust")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("bplate")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("dreams")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("fear")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("friendship")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("andre")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("lovelanguage")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("humor")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("perfectday")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("hours")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("evaluate")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("quiz")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("secret")
-      .isLength({ min: 1, max: 1000 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
+    check("firstName").isLength({ min: 1, max: 100 }),
+
+    check("lastName").isLength({ min: 1, max: 100 }),
+
+    check("uclaemail").isLength({ min: 1, max: 100 }),
+
+    check("academicyear").isLength({ min: 1, max: 50 }),
+
+    check("gender").isLength({ min: 1, max: 50 }),
+
+    check("sexuality").isLength({ min: 1, max: 100 }),
+
+    check("qualities").isLength({ min: 1, max: 500 }),
+
+    check("dealbreaker").isLength({ min: 1, max: 1000 }),
+
+    check("trust").isLength({ min: 1, max: 1000 }),
+
+    check("bplate").isLength({ min: 1, max: 1000 }),
+
+    check("dreams").isLength({ min: 1, max: 1000 }),
+
+    check("fear").isLength({ min: 1, max: 1000 }),
+
+    check("friendship").isLength({ min: 1, max: 1000 }),
+
+    check("andre").isLength({ min: 1, max: 1000 }),
+
+    check("lovelanguage").isLength({ min: 1, max: 1000 }),
+
+    check("humor").isLength({ min: 1, max: 1000 }),
+
+    check("perfectday").isLength({ min: 1, max: 1000 }),
+
+    check("hours").isLength({ min: 1, max: 1000 }),
+
+    check("evaluate").isLength({ min: 1, max: 1000 }),
+
+    check("quiz").isLength({ min: 1, max: 1000 }),
+
+    check("secret").isLength({ min: 1, max: 1000 }),
   ],
   createInput
 );
