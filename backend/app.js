@@ -50,48 +50,50 @@ const createInput = async (req, res) => {
 
   try {
     const {
-      name,
-      favoriteColor,
-      idealDate,
-      crushName,
-      input5,
-      input6,
-      input7,
-      input8,
-      input9,
-      input10,
-      input11,
-      input12,
-      input13,
-      input14,
-      input15,
-      input16,
-      input17,
-      input18,
-      input19,
-      input20,
+      firstName,
+      lastName,
+      uclaemail,
+      academicyear,
+      gender,
+      sexuality,
+      qualities,
+      dealbreaker,
+      trust,
+      bplate,
+      dreams,
+      fear,
+      friendship,
+      andre,
+      lovelanguage,
+      humor,
+      perfectday,
+      hours,
+      evaluate,
+      quiz,
+      secret,
     } = req.body;
     const input = new Input({
-      name,
-      favoriteColor,
-      idealDate,
-      crushName,
-      input5,
-      input6,
-      input7,
-      input8,
-      input9,
-      input10,
-      input11,
-      input12,
-      input13,
-      input14,
-      input15,
-      input16,
-      input17,
-      input18,
-      input19,
-      input20,
+      firstName,
+      lastName,
+      uclaemail,
+      academicyear,
+      gender,
+      sexuality,
+      qualities,
+      dealbreaker,
+      trust,
+      bplate,
+      dreams,
+      fear,
+      friendship,
+      andre,
+      lovelanguage,
+      humor,
+      perfectday,
+      hours,
+      evaluate,
+      quiz,
+      secret,
     });
     await input.save();
     res.status(201).json({ message: "Input saved successfully", input });
@@ -104,65 +106,68 @@ const createInput = async (req, res) => {
 router.post(
   "/",
   [
-    check("name")
+    check("firstName")
       .isLength({ min: 1, max: 100 })
       .withMessage("Name must be between 1 and 100 characters"),
-    check("favoriteColor")
+    check("lastName")
       .isLength({ min: 1, max: 100 })
       .withMessage("Favorite color must be between 1 and 100 characters"),
-    check("idealDate")
+    check("uclaemail")
       .isLength({ min: 1, max: 100 })
       .withMessage("Ideal date must be between 1 and 100 characters"),
-    check("crushName")
+    check("academicyear")
+      .isLength({ min: 1, max: 50 })
+      .withMessage("Secret crush must be between 1 and 100 characters"),
+    check("gender")
+      .isLength({ min: 1, max: 50 })
+      .withMessage("Secret crush must be between 1 and 100 characters"),
+    check("sexuality")
       .isLength({ min: 1, max: 100 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input5")
-      .isLength({ min: 1, max: 100 })
+    check("qualities")
+      .isLength({ min: 1, max: 500 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input6")
-      .isLength({ min: 1, max: 100 })
+    check("dealbreaker")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input7")
-      .isLength({ min: 1, max: 100 })
+    check("trust")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input8")
-      .isLength({ min: 1, max: 100 })
+    check("bplate")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input9")
-      .isLength({ min: 1, max: 100 })
+    check("dreams")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input10")
-      .isLength({ min: 1, max: 100 })
+    check("fear")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input11")
-      .isLength({ min: 1, max: 100 })
+    check("friendship")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input12")
-      .isLength({ min: 1, max: 100 })
+    check("andre")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input13")
-      .isLength({ min: 1, max: 100 })
+    check("lovelanguage")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input14")
-      .isLength({ min: 1, max: 100 })
+    check("humor")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input15")
-      .isLength({ min: 1, max: 100 })
+    check("perfectday")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input16")
-      .isLength({ min: 1, max: 100 })
+    check("hours")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input17")
-      .isLength({ min: 1, max: 100 })
+    check("evaluate")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input18")
-      .isLength({ min: 1, max: 100 })
+    check("quiz")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input19")
-      .isLength({ min: 1, max: 100 })
-      .withMessage("Secret crush must be between 1 and 100 characters"),
-    check("input20")
-      .isLength({ min: 1, max: 100 })
+    check("secret")
+      .isLength({ min: 1, max: 1000 })
       .withMessage("Secret crush must be between 1 and 100 characters"),
   ],
   createInput
