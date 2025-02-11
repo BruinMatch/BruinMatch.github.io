@@ -109,7 +109,11 @@ router.post(
 
     check("lastName").isLength({ min: 1, max: 100 }),
 
-    check("uclaemail").isLength({ min: 1, max: 100 }),
+    check("uclaemail")
+      .isEmail()
+      .withMessage("Must be a valid email address")
+      .matches(/@(g\.ucla\.edu|ucla\.edu)$/)
+      .withMessage("Must be a UCLA email (@ucla.edu or @g.ucla.edu)"),
 
     check("academicyear").isLength({ min: 1, max: 50 }),
 

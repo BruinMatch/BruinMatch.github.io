@@ -5,6 +5,13 @@ import { useRouter } from "next/navigation";
 import InputField from "./InputField";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
+const collaborators = [
+  "vestucla_logo.png",
+  "collab2.png",
+  "collab3.png",
+  "collab4.png"
+];
+
 export default function ValentineForm() {
   const [page, setPage] = useState(0);
   const [formData, setFormData] = useState({
@@ -73,18 +80,19 @@ export default function ValentineForm() {
         type: "text",
         content: (
           <>
-            Welcome to BruinMatch! We took inspiration from Harvard's DataMatch, and noticed that
-            UCLA doesn't have any sort of equivalent.
+            <strong>Welcome to BruinMatch!</strong>
             <br />
             <br />
-            This quiz is 20 questions, and at 12:00am on February 14th you will receive an email
-            with your partner with highest compatibility score! This score is calculated using AI
-            based on your answers. All questions are free response to give you freedom to express
-            yourself however you wish. I swear it's not because of bad design and tight deadlines :)
+            A place to meet your <strong>perfect</strong> valentine's day date, created by <strong>Glitch at UCLA</strong>.
             <br />
             <br />
-            Our AI is programmed to analyze not only your answers but your tone and text patterns in
-            order to do its best to match you with someone who fits your vibe!
+            The survey is 20 questions. At 12:00am on February 14th you'll receive an email
+            with <strong>your strongest match</strong>, calculated using a finely-tuned <strong>AI algorithm</strong>.
+            All questions are free response (<em>express yourself!</em>)
+            <br />
+            <br />
+            Our AI is programmed to analyze not only your answers but your <strong>tone and text patterns</strong> in
+            order to do its best to match you with someone who fits <em>your</em> vibe!
             <br />
             <br />
             Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your
@@ -173,6 +181,24 @@ export default function ValentineForm() {
               onChange={handleChange}
             />
           ) : null // Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
+      )}
+
+      {page === 0 && (
+        <>
+          <div className='mb-4 text-lg'>
+            Backed by:
+          </div>
+          <div className='flex justify-center space-x-4 mb-4'>
+            {collaborators.map((img, index) => (
+              <img
+                key={index}
+                src={`${img}`}
+                alt={`Collaborator ${index + 1}`}
+                className='w-20 h-20 rounded-full border'
+              />
+            ))}
+          </div>
+        </>
       )}
 
       <div className='flex justify-between'>
