@@ -41,7 +41,7 @@ export default function ValentineForm() {
 
     const handleRequest = async () => {
       try {
-        const response = await fetch("http://54.221.250.119/add-post", {
+        const response = await fetch("https://bruinmatch.com/add-post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
