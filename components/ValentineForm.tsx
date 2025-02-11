@@ -5,12 +5,7 @@ import { useRouter } from "next/navigation";
 import InputField from "./InputField";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
-const collaborators = [
-  "vestucla_logo.png",
-  "collab2.png",
-  "collab3.png",
-  "collab4.png"
-];
+const collaborators = ["vestucla_logo.png", "collab2.png", "collab3.png", "collab4.png"];
 
 export default function ValentineForm() {
   const [page, setPage] = useState(0);
@@ -49,7 +44,7 @@ export default function ValentineForm() {
 
     const handleRequest = async () => {
       try {
-        const response = await fetch("https://bruinmatch.com/add-post/", {
+        const response = await fetch("https://backend.bruinmatch.com/add-post/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +54,6 @@ export default function ValentineForm() {
 
         if (!response.ok) {
           console.log("response failed");
-          console.log(response);
           throw new Error("Failed to submit form. Please try again later.");
         }
 
@@ -82,17 +76,19 @@ export default function ValentineForm() {
           <>
             <strong>Welcome to BruinMatch!</strong>
             <br />
-            <br />
-            A place to meet your <strong>perfect</strong> valentine's day date, created by <strong>Glitch at UCLA</strong>.
-            <br />
-            <br />
-            The survey is 20 questions. At 12:00am on February 14th you'll receive an email
-            with <strong>your strongest match</strong>, calculated using a finely-tuned <strong>AI algorithm</strong>.
-            All questions are free response (<em>express yourself!</em>)
+            <br />A place to meet your <strong>perfect</strong> valentine's day date, created by{" "}
+            <strong>Glitch at UCLA</strong>.
             <br />
             <br />
-            Our AI is programmed to analyze not only your answers but your <strong>tone and text patterns</strong> in
-            order to do its best to match you with someone who fits <em>your</em> vibe!
+            The survey is 20 questions. At 12:00am on February 14th you'll receive an email with{" "}
+            <strong>your strongest match</strong>, calculated using a finely-tuned{" "}
+            <strong>AI algorithm</strong>. All questions are free response (
+            <em>express yourself!</em>)
+            <br />
+            <br />
+            Our AI is programmed to analyze not only your answers but your{" "}
+            <strong>tone and text patterns</strong> in order to do its best to match you with
+            someone who fits <em>your</em> vibe!
             <br />
             <br />
             Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your
@@ -185,9 +181,7 @@ export default function ValentineForm() {
 
       {page === 0 && (
         <>
-          <div className='mb-4 text-lg'>
-            Backed by:
-          </div>
+          <div className='mb-4 text-lg'>Backed by:</div>
           <div className='flex justify-center space-x-4 mb-4'>
             {collaborators.map((img, index) => (
               <img
