@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import InputField from "./InputField";
+import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
 
 export default function ValentineForm() {
   const [page, setPage] = useState(0);
@@ -40,9 +41,8 @@ export default function ValentineForm() {
     e.preventDefault();
 
     const handleRequest = async () => {
-      console.log(JSON.stringify(formData));
       try {
-        const response = await fetch("https://bruinmatch.com/add-post", {
+        const response = await fetch("https://bruinmatch.com/add-post/", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -52,6 +52,7 @@ export default function ValentineForm() {
 
         if (!response.ok) {
           console.log("response failed");
+          console.log(response);
           throw new Error("Failed to submit form. Please try again later.");
         }
 
