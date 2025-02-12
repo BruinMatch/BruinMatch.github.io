@@ -4,8 +4,11 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import InputField from "./InputField";
 import { ResponseCookies } from "next/dist/compiled/@edge-runtime/cookies";
+import GoogleButton from "./GoogleButton";
+import { signOut } from "@/auth";
+import { signOutWithGoogle } from "@/lib/actions/auth";
 
-const collaborators = ["vestucla_logo.png", "collab2.png", "collab3.png", "collab4.png"];
+const collaborators = ["vestucla_logo.png"];
 
 export default function ValentineForm() {
   const [page, setPage] = useState(0);
@@ -44,6 +47,7 @@ export default function ValentineForm() {
 
     const handleRequest = async () => {
       try {
+        console.log(JSON.stringify(formData));
         const response = await fetch("https://backend.bruinmatch.com/add-post/", {
           method: "POST",
           headers: {
@@ -91,18 +95,12 @@ export default function ValentineForm() {
             someone who fits <em>your</em> vibe!
             <br />
             <br />
-            Note that you <strong>MUST</strong> use your UCLA email or else we will filter out your
-            response. We will also be using AI to filter out duplicate/invalid responses.
+            Note that you <strong>MUST</strong> use your UCLA email or else we won't submit your
+            data. We will also be using AI to filter out duplicate/invalid responses.
           </>
         ),
       },
     ],
-    [
-      { label: "First Name", name: "firstName" },
-      { label: "Last Name", name: "lastName" },
-      { label: "UCLA Email", name: "uclaemail" },
-    ],
-    // name, favoriteColor, idealDate, crushName, input5
     [
       { label: "Academic Year", name: "academicyear" },
       { label: "Gender", name: "gender" },
@@ -154,103 +152,147 @@ export default function ValentineForm() {
   });
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className='space-y-4'
-    >
-      {pages[page].map(
-        (q) =>
-          "type" in q && q.type === "text" ? (
-            <div
-              key='welcome-text'
-              className='mb-4 text-lg'
-            >
-              {q.content}
-            </div>
-          ) : //  dd checks for 'label' and 'name' existence too
-          "label" in q && "name" in q ? (
-            <InputField
-              key={q.name}
-              label={q.label}
-              name={q.name}
-              value={formData[q.name as keyof typeof formData]}
-              onChange={handleChange}
-            />
-          ) : null // Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
-      )}
-
-      {page === 0 && (
-        <>
-          <div className='mb-4 text-lg'>Backed by:</div>
-          <div className='flex justify-center space-x-4 mb-4'>
-            {collaborators.map((img, index) => (
-              <img
-                key={index}
-                src={`${img}`}
-                alt={`Collaborator ${index + 1}`}
-                className='w-20 h-20 rounded-full border'
+    <>
+      <form
+        onSubmit={handleSubmit}
+        className='space-y-4'
+      >
+        {pages[page].map(
+          (q) =>
+            "type" in q && q.type === "text" ? (
+              <div
+                key='welcome-text'
+                className='mb-4 text-lg'
+              >
+                {q.content}
+              </div>
+            ) : //  dd checks for 'label' and 'name' existence too
+            "label" in q && "name" in q ? (
+              <InputField
+                key={q.name}
+                label={q.label}
+                name={q.name}
+                value={formData[q.name as keyof typeof formData]}
+                onChange={handleChange}
               />
-            ))}
-          </div>
-        </>
-      )}
-
-      <div className='flex justify-between'>
-        {page > 0 && (
-          <button
-            type='button'
-            onClick={() => setPage(page - 1)}
-            className='bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300'
-          >
-            Back
-          </button>
+            ) : null // Handle case where 'label' or 'name' is missing (shouldn't happen in our setup, but good practice)
         )}
 
-        {page < pages.length - 1 ? (
-          <div className='relative group'>
+        {page === 0 && (
+          <>
+            <div className='mb-4 text-lg'>Backed by:</div>
+            <div className='flex justify-center space-x-4 mb-4'>
+              {collaborators.map((img, index) => (
+                <img
+                  key={index}
+                  src={`${img}`}
+                  alt={`Collaborator ${index + 1}`}
+                  className='w-20 h-20 rounded-full border'
+                />
+              ))}
+            </div>
+          </>
+        )}
+
+        <div className='flex justify-between'>
+          {page > 0 && (
             <button
               type='button'
-              onClick={() => isPageComplete && setPage(page + 1)}
-              disabled={!isPageComplete}
-              className={`py-2 px-4 rounded font-bold transition duration-300 ${
-                isPageComplete
-                  ? "bg-blue-500 hover:bg-blue-600 text-white"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              onClick={() => setPage(page - 1)}
+              className='bg-gray-400 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition duration-300'
             >
-              Next
+              Back
             </button>
+          )}
 
-            {/* Tooltip appears only if the button is disabled */}
-            {!isPageComplete && (
-              <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
-                Complete all questions to continue
-              </div>
-            )}
-          </div>
-        ) : (
-          <div className='relative group'>
+          {page < pages.length - 1 ? (
+            <div className='relative group'>
+              {isUclaEmail(formData.uclaemail) && (
+                <button
+                  type='button'
+                  onClick={() => isPageComplete && setPage(page + 1)}
+                  disabled={!isPageComplete}
+                  className={`py-2 px-4 rounded font-bold transition duration-300 ${
+                    isPageComplete
+                      ? "bg-blue-500 hover:bg-blue-600 text-white"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                  }`}
+                >
+                  Next
+                </button>
+              )}
+
+              {/* Tooltip appears only if the button is disabled */}
+              {!isPageComplete && (
+                <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
+                  Complete all questions to continue
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className='relative group'>
+              <button
+                type='submit'
+                disabled={!isPageComplete}
+                className={`py-2 px-4 rounded font-bold transition duration-300 ${
+                  isPageComplete
+                    ? "bg-red-500 hover:bg-red-600 text-white"
+                    : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                Submit
+              </button>
+
+              {/* Tooltip appears only if the button is disabled */}
+              {!isPageComplete && (
+                <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
+                  Complete all questions to submit
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </form>
+      {isUclaEmail(formData.uclaemail) ? (
+        <div className='flex justify-between pt-4'>
+          <h1>Logged in as {formData.uclaemail}</h1>
+          <form
+            action={() => {
+              signOutWithGoogle();
+              setFormData({ ...formData, firstName: "", lastName: "", uclaemail: "" });
+            }}
+          >
             <button
               type='submit'
-              disabled={!isPageComplete}
-              className={`py-2 px-4 rounded font-bold transition duration-300 ${
-                isPageComplete
-                  ? "bg-red-500 hover:bg-red-600 text-white"
-                  : "bg-gray-300 text-gray-500 cursor-not-allowed"
-              }`}
+              className='hover:underline'
             >
-              Submit
+              Sign Out
             </button>
-
-            {/* Tooltip appears only if the button is disabled */}
-            {!isPageComplete && (
-              <div className='absolute left-1/2 bottom-full mb-2 w-max -translate-x-1/2 bg-gray-700 text-white text-xs rounded px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none'>
-                Complete all questions to submit
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </form>
+          </form>
+        </div>
+      ) : (
+        <div className='flex justify-center pt-4'>
+          <GoogleButton
+            updateFirstName={(googleFName: string) => {
+              setFormData({ ...formData, firstName: googleFName });
+            }}
+            updateLastName={(googleLName: string) => {
+              setFormData({ ...formData, lastName: googleLName });
+            }}
+            updateEmail={(googleEmail: string) => {
+              setFormData({ ...formData, uclaemail: googleEmail });
+            }}
+          />
+        </div>
+      )}
+    </>
   );
+}
+
+function isUclaEmail(email?: string): boolean {
+  if (!email) return false; // Handle undefined or empty email
+
+  // const uclaRegex = /^[a-zA-Z0-9._%+-]+@(g\.)?ucla\.edu$/;
+  const uclaRegex = /^[a-zA-Z0-9._%+-]+@fpsct\.org$/;
+  return uclaRegex.test(email);
 }
